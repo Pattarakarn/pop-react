@@ -15,7 +15,7 @@ function App() {
 
   async function getData() {
 
-    fetch("http://localhost:8000")
+    fetch("https://test-back-bj2j.onrender.com")
       .then((response) => (response.json()))
       .then(data => {
         const arrCountry = new Set();
