@@ -3,8 +3,9 @@ import * as React from 'react';
 import Slider from '@mui/material/Slider';
 import { useEffect } from "react";
 import Barchart from "./barchart";
+import axios from "axios";
 
-export default function GraphComponent({ data, minYear, maxYear }) {
+export default function GraphComponent({ data, minYear, maxYear, color }) {
     const [isContinue, setIsContinue] = useState(false)
     const [mark, setMark] = useState(false)
     const [selectYear, setSelectYear] = useState(false)
@@ -51,7 +52,7 @@ export default function GraphComponent({ data, minYear, maxYear }) {
         }
         setTimeout(() => {
             if (isContinue) {
-                if(nextSelectYear > maxYear) {
+                if (nextSelectYear > maxYear) {
                     setSelectYear(+minYear)
                 } else {
                     setSelectYear(nextSelectYear)
@@ -65,8 +66,11 @@ export default function GraphComponent({ data, minYear, maxYear }) {
             const dataYear = data?.find(el => Object.keys(el)[0] == (year || selectYear))
             if (dataYear) {
                 const dataSlice = dataYear[year || selectYear]?.slice(0, 10)
-                dataSlice.map(ele => {
-                    ele.fill = color_set[ele['Country name']]
+                dataSlice.map(async (ele) => {
+                    // console.log(ele)
+                    // ele.flag = await getFlag(ele['Country name'])
+                    ele.fill = color[ele['region']]
+                    // ele.fill = color_set[ele['Country name']]
                     return ele
                 })
                 setDataBar(dataSlice)
@@ -74,6 +78,16 @@ export default function GraphComponent({ data, minYear, maxYear }) {
         }
     }
 
+    // const getFlag = async (name) => {
+    //     try {
+    //         const res = await axios.get(`https://restcountries.com/v3.1/name/${name}`)
+    //         const flag = (res.data.find(el => el.name?.common == name)?.flag)
+    //         return flag
+    //     } catch (err) {
+
+    //     }
+    // }
+    // console.log(dataBar)
     const color_set = {
         World: "orange",
         ['Less developed regions']: "gray",

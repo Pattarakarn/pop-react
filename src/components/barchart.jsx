@@ -21,13 +21,17 @@ export default function Barchart({ data, selectYear, isContinue }) {
     }, [data])
 
     const renderCustomizedLabel = (props) => {
-        const { x, y, width, height, value } = props;
+        const { x, y, width, height, value, index } = props;
         const radius = 13;
         let nf = new Intl.NumberFormat('en-US');
-
+        // console.log(data[index].flag)
+        const flag = data[index].flag
         return (
             <g>
-                <circle cx={x + width - 18} cy={y + height / 2} r={radius} fill="white" />
+                {/* <circle cx={x + width - 18} cy={y + height / 2} r={radius} fill="white" /> */}
+                <text x={x + width - 18} y={y + height / 2+3} textAnchor="middle" dominantBaseline="middle" fontSize={24} >
+                    {flag}
+                </text>
                 <text x={x + width + 50} y={y + height / 2} textAnchor="middle" dominantBaseline="middle" fontSize={14}>
                     {nf.format(value)}
                 </text>
