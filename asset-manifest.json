@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pop-react/static/css/main.c3b03f0d.css",
-    "main.js": "/pop-react/static/js/main.b95ef0f2.js",
+    "main.js": "/pop-react/static/js/main.81dfbcd7.js",
     "static/js/453.84dc1e3a.chunk.js": "/pop-react/static/js/453.84dc1e3a.chunk.js",
     "index.html": "/pop-react/index.html",
     "main.c3b03f0d.css.map": "/pop-react/static/css/main.c3b03f0d.css.map",
-    "main.b95ef0f2.js.map": "/pop-react/static/js/main.b95ef0f2.js.map",
+    "main.81dfbcd7.js.map": "/pop-react/static/js/main.81dfbcd7.js.map",
     "453.84dc1e3a.chunk.js.map": "/pop-react/static/js/453.84dc1e3a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c3b03f0d.css",
-    "static/js/main.b95ef0f2.js"
+    "static/js/main.81dfbcd7.js"
   ]
 }
