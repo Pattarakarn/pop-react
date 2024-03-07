@@ -3,10 +3,9 @@ import * as React from 'react';
 import Slider from '@mui/material/Slider';
 import { useEffect } from "react";
 import Barchart from "./barchart";
-import axios from "axios";
 
 export default function GraphComponent({ data, minYear, maxYear, color }) {
-    const [isContinue, setIsContinue] = useState(false)
+    const [isContinue, setIsContinue] = useState(true)
     const [mark, setMark] = useState(false)
     const [selectYear, setSelectYear] = useState(false)
     const [dataBar, setDataBar] = useState()
@@ -22,18 +21,13 @@ export default function GraphComponent({ data, minYear, maxYear, color }) {
                 }
             })
             setMark(marks)
-            setSelectYear(Object.keys(data[0])[0])
             setDataForBarChart()
+            if(!dataBar) setSelectYear(Object.keys(data[0])[0])
         }
     }, [data])
 
     function valuetext(value) {
         setSelectYear(value)
-        // return `${value}.`;
-    }
-
-    function valueLabelFormat(value) {
-        // return mark?.findIndex((mark) => mark.value === value) + 1;
     }
 
     useEffect(() => {
@@ -44,13 +38,13 @@ export default function GraphComponent({ data, minYear, maxYear, color }) {
     }, [isContinue])
 
     useEffect(() => {
-        const nextSelectYear = selectYear + 1
+        const nextSelectYear = +selectYear + 1
         if (isContinue) {
             setDataForBarChart(nextSelectYear)
         } else {
             setDataForBarChart(selectYear)
         }
-        setTimeout(() => {
+        const timerId = setTimeout(() => {
             if (isContinue) {
                 if (nextSelectYear > maxYear) {
                     setSelectYear(+minYear)
@@ -59,18 +53,21 @@ export default function GraphComponent({ data, minYear, maxYear, color }) {
                 }
             }
         }, 500);
+
+        return () => {
+            clearTimeout(timerId);
+        };
     }, [selectYear])
 
     function setDataForBarChart(year) {
         if (data) {
             const dataYear = data?.find(el => Object.keys(el)[0] == (year || selectYear))
             if (dataYear) {
-                const dataSlice = dataYear[year || selectYear]?.slice(0, 10)
+                const dataSlice = dataYear[year || selectYear]
+                // ?.slice(0, 10)
                 dataSlice.map(async (ele) => {
                     // console.log(ele)
-                    // ele.flag = await getFlag(ele['Country name'])
                     ele.fill = color[ele['region']]
-                    // ele.fill = color_set[ele['Country name']]
                     return ele
                 })
                 setDataBar(dataSlice)
@@ -78,29 +75,6 @@ export default function GraphComponent({ data, minYear, maxYear, color }) {
         }
     }
 
-    // const getFlag = async (name) => {
-    //     try {
-    //         const res = await axios.get(`https://restcountries.com/v3.1/name/${name}`)
-    //         const flag = (res.data.find(el => el.name?.common == name)?.flag)
-    //         return flag
-    //     } catch (err) {
-
-    //     }
-    // }
-    // console.log(dataBar)
-    const color_set = {
-        World: "orange",
-        ['Less developed regions']: "gray",
-        ['Asia (UN)']: "cornsilk",
-        ['Upper-middle-income countries']: "#8884d8",
-        ['More developed regions']: "#82ca9d",
-        ['Lower-middle-income countries']: "lightslategray",
-        ['High-income countries']: "lightpink",
-        ['Lower-middle-income countries']: "lightblue",
-        ['Europe (UN)']: "navy",
-        China: "lightcoral",
-        India: "brown",
-    }
     return (
         <div>
             <Barchart
