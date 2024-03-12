@@ -4,6 +4,10 @@
   min-width: 700px;
 }
 
+*::selection {
+  background: pink;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

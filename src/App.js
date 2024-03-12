@@ -19,7 +19,7 @@ function App() {
   }, [selectRegion])
 
   async function getData() {
-    fetch("http://localhost:8000/filter?flag=true&limit=10")
+    fetch("http://localhost:8000/filter?limit=10")
       .then((response) => (response.json()))
       .then(data => {
         setMinYear(Object.keys(data[0])[0])
@@ -36,37 +36,10 @@ function App() {
     //   .catch(err => console.log(err))
     return
 
-    fetch("http://localhost:8000")
-      .then((response) => (response.json()))
-      .then(data => {
-        const newData = [];
-        data.map(ele => {
-          if (ele.Year.length == 4) {
-            const dataYearIndex = newData?.findIndex(arr => (Object.keys(arr)[0] == ele.Year))
-            if (dataYearIndex < 0) {
-              newData.push({ [ele.Year]: [ele] })
-            } else {
-              newData[dataYearIndex][ele.Year].push(ele)
-            }
-          }
-        })
-
-        newData?.sort((a, b) => { return Object.keys(a)[0] - Object.keys(b)[0] })
-        setMinYear(Object.keys(newData[0])[0])
-        setMaxYear(Object.keys(newData[newData.length - 1])[0])
-
-        newData.map(ele => {
-          Object.values(ele)[0]?.sort((a, b) => {
-            return b.Population - a.Population
-          })
-        })
-
-        setData(newData)
-      })
-      .catch(err => console.log(err))
   }
+  
   async function getDataByRegion() {
-    fetch(`http://localhost:8000/filter?flag=true&limit=10&region=${selectRegion}`)
+    fetch(`http://localhost:8000/filter?limit=10&region=${selectRegion}`)
       .then((response) => (response.json()))
       .then(data => {
         setData(data)
@@ -97,17 +70,6 @@ function App() {
           <div style={{ textAlign: "left", paddingLeft: "60px" }}>
             Click on the legend to filter by continent
             <div style={{ margin: "7px 0", display: "flex", alignItems: "center" }}>
-              {/* Region {dataRegion.map(el => (
-            <div style={{ display: "flex", margin: "0 5px" }}>
-              <div style={{
-                width: "1em", height: "1em", margin: "0 5px",
-                background: `${colorRegion[el.region]}`, borderRadius: "3px"
-              }}
-              />
-              <span>{el.region}</span>
-            </div>
-          ))} */}
-
               Region {["Asia", "Europe", "Africa", "Oceania", "Americas"].map(region => (
                 <button style={{
                   display: "flex", margin: "3px", cursor: "pointer", borderWidth: "0", padding: "6px", borderRadius: "4px",
